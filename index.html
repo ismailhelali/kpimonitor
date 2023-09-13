@@ -3,26 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMF Data Link</title>
+    <title>IMF Data</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        table {
+            width: 100%;
+            border-collapse: collapse;
         }
-        .container {
-            text-align: center;
-            padding: 20px;
+        table, th, td {
+            border: 1px solid #ddd;
         }
-        .imf-link {
-            font-size: 18px;
-            color: #007BFF;
-            text-decoration: none;
+        th, td {
+            padding: 8px;
+            text-align: left;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <p>Click the link below to access IMF compact data:</p>
-        <a class="imf-link" href="http://dataservices.imf.org/REST/SDMX_XML.svc/CompactData/IFS/M..PCPI_IX.?startPeriod=2000&endPeriod=2001">IMF Compact Data</a>
-    </div>
+    <h1>IMF Data</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Time Period</th>
+                <th>Observed Value</th>
+            </tr>
+        </thead>
+        <tbody id="data-body">
+            <!-- Data will be inserted here -->
+        </tbody>
+    </table>
+    
+    <script>
+        // URL of the XML data
+        const xmlUrl = 'http://dataservices.imf.org/REST/SDMX_XML.svc/CompactData/IFS/M..PCPI_IX.?startPeriod=2000&endPeriod=2001';
+
+        // Fetch the XML data
+        fetch(xmlUrl)
+            .then(response => response.text())
+            .then(xmlData => {
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlData, "text/xml");
+
+                const obsNodes = xmlDoc.querySelectorAll('Obs');
+                const dataBody = document.getElementById('data-body');
+
+                obsNodes.forEach((obsNode) => {
+                    const timePeriod = obsNode.getAttribute('TIME_PERIOD');
+                    const obsValue = obsNode.getAttribute('OBS_VALUE');
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${timePeriod}</td>
+                        <td>${obsValue}</td>
+                    `;
+
+                    dataBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching XML data:', error);
+            });
+    </script>
 </body>
 </html>
