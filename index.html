@@ -33,38 +33,29 @@
     </table>
     
     <script>
-        // URL of the XML compact data (using HTTPS for secure connection)
-        const xmlUrl = 'http://dataservices.imf.org/REST/SDMX_XML.svc/CompactData/IFS/M..PCPI_IX.?startPeriod=2000&endPeriod=2001';
+        // Your XML data as a string
+        const xmlData = `http://dataservices.imf.org/REST/SDMX_XML.svc/CompactData/IFS/M..PCPI_IX.?startPeriod=2000&endPeriod=2001`;
 
-        // Fetch the XML compact data
-        fetch(xmlUrl)
-            .then(response => response.text())
-            .then(xmlData => {
-                // Assuming your XML data is in the expected format.
-                // You may need to adjust the parsing code accordingly.
+        // Parse the XML data
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlData, "text/xml");
 
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(xmlData, "text/xml");
+        // Extract and display data
+        const obsNodes = xmlDoc.querySelectorAll('Obs');
+        const dataBody = document.getElementById('data-body');
 
-                const obsNodes = xmlDoc.querySelectorAll('Obs');
-                const dataBody = document.getElementById('data-body');
+        obsNodes.forEach((obsNode) => {
+            const timePeriod = obsNode.getAttribute('TIME_PERIOD');
+            const obsValue = obsNode.getAttribute('OBS_VALUE');
 
-                obsNodes.forEach((obsNode) => {
-                    const timePeriod = obsNode.getAttribute('TIME_PERIOD');
-                    const obsValue = obsNode.getAttribute('OBS_VALUE');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${timePeriod}</td>
+                <td>${obsValue}</td>
+            `;
 
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${timePeriod}</td>
-                        <td>${obsValue}</td>
-                    `;
-
-                    dataBody.appendChild(row);
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching XML compact data:', error);
-            });
+            dataBody.appendChild(row);
+        });
     </script>
 </body>
 </html>
