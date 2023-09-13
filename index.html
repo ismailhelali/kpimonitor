@@ -33,13 +33,16 @@
     </table>
     
     <script>
-        // URL of the XML data
+        // URL of the XML compact data
         const xmlUrl = 'http://dataservices.imf.org/REST/SDMX_XML.svc/CompactData/IFS/M..PCPI_IX.?startPeriod=2000&endPeriod=2001';
 
-        // Fetch the XML data
+        // Fetch the XML compact data
         fetch(xmlUrl)
             .then(response => response.text())
             .then(xmlData => {
+                // Assuming your XML data is in the expected format.
+                // You may need to adjust the parsing code accordingly.
+
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(xmlData, "text/xml");
 
@@ -60,7 +63,7 @@
                 });
             })
             .catch(error => {
-                console.error('Error fetching XML data:', error);
+                console.error('Error fetching XML compact data:', error);
             });
     </script>
 </body>
