@@ -33,29 +33,37 @@
     </table>
     
     <script>
-        // Your XML data as a string
-        const xmlData = `http://dataservices.imf.org/REST/SDMX_XML.svc/CompactData/IFS/M..PCPI_IX.?startPeriod=2000&endPeriod=2001`;
+        // URL of the XML data
+        const xmlUrl = 'http://dataservices.imf.org/REST/SDMX_XML.svc/CompactData/IFS/M..PCPI_IX.?startPeriod=2000&endPeriod=2001'; // Replace with the actual URL
 
-        // Parse the XML data
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xmlData, "text/xml");
+        // Fetch the XML data
+        fetch(xmlUrl)
+            .then(response => response.text())
+            .then(xmlData => {
+                // Parse the XML data
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlData, "text/xml");
 
-        // Extract and display data
-        const obsNodes = xmlDoc.querySelectorAll('Obs');
-        const dataBody = document.getElementById('data-body');
+                // Extract and display data
+                const obsNodes = xmlDoc.querySelectorAll('Obs');
+                const dataBody = document.getElementById('data-body');
 
-        obsNodes.forEach((obsNode) => {
-            const timePeriod = obsNode.getAttribute('TIME_PERIOD');
-            const obsValue = obsNode.getAttribute('OBS_VALUE');
+                obsNodes.forEach((obsNode) => {
+                    const timePeriod = obsNode.getAttribute('TIME_PERIOD');
+                    const obsValue = obsNode.getAttribute('OBS_VALUE');
 
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${timePeriod}</td>
-                <td>${obsValue}</td>
-            `;
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${timePeriod}</td>
+                        <td>${obsValue}</td>
+                    `;
 
-            dataBody.appendChild(row);
-        });
+                    dataBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching XML data:', error);
+            });
     </script>
 </body>
 </html>
