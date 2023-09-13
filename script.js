@@ -10,7 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!response.ok) {
                 throw new Error(`HTTP Error! Status: ${response.status}`);
             }
-            const data = await response.json();
+            const data = await response ;
+            console.log(data)
             
             // Display data in the data container (customize this based on your data format).
             dataContainer.innerHTML = JSON.stringify(data, null, 2);
