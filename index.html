@@ -3,67 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMF Data</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-    </style>
+    <title>IMF Data Display</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>IMF Data</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Time Period</th>
-                <th>Observed Value</th>
-            </tr>
-        </thead>
-        <tbody id="data-body">
-            <!-- Data will be inserted here -->
-        </tbody>
-    </table>
-    
-    <script>
-        // URL of the XML data
-        const xmlUrl = 'https://dataservices.imf.org/REST/SDMX_XML.svc/CompactData/IFS/M..PCPI_IX.?startPeriod=2000&endPeriod=2001'; // Replace with the actual URL
-
-        // Fetch the XML data
-        fetch(xmlUrl)
-            .then(response => response.text())
-            .then(xmlData => {
-                // Parse the XML data
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(xmlData, "text/xml");
-
-                // Extract and display data
-                const obsNodes = xmlDoc.querySelectorAll('Obs');
-                const dataBody = document.getElementById('data-body');
-
-                obsNodes.forEach((obsNode) => {
-                    const timePeriod = obsNode.getAttribute('TIME_PERIOD');
-                    const obsValue = obsNode.getAttribute('OBS_VALUE');
-
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${timePeriod}</td>
-                        <td>${obsValue}</td>
-                    `;
-
-                    dataBody.appendChild(row);
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching XML data:', error);
-            });
-    </script>
+    <h1>IMF Data Display</h1>
+    <div id="data-container"></div>
+    <button id="fetch-data">Fetch Data</button>
+    <script src="script.js"></script>
 </body>
 </html>
