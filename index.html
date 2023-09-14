@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open Link</title>
+    <title>Open Link in Popup</title>
 </head>
 <body>
-    <button onclick="openLink()">Open Link</button>
+    <button onclick="openLinkInPopup()">Open Link in Popup</button>
 
     <script>
-        function openLink() {
+        function openLinkInPopup() {
             var url = "https://data.imf.org/?sk=667622e4-29e4-43bb-99cd-928bb31e325e&hide_uv=1";
-            window.open(url, "_blank");
+            var windowFeatures = "width=800,height=600,resizable=yes,scrollbars=yes";
+            window.open(url, "_blank", windowFeatures);
         }
     </script>
 </body>
 </html>
-
