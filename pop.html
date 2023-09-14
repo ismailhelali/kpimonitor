@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid of Links</title>
+    <style>
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Adjust the number of columns as needed */
+            gap: 10px;
+        }
+
+        .popup-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .popup-window {
+            width: calc(33.33% - 10px); /* Adjust the width as needed */
+            height: 200px; /* Adjust the height as needed */
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <button onclick="openLinkInPopup('https://data.imf.org/?sk=1')">Link 1</button>
+        <button onclick="openLinkInPopup('https://data.imf.org/?sk=2')">Link 2</button>
+        <button onclick="openLinkInPopup('https://data.imf.org/?sk=3')">Link 3</button>
+        <!-- Add more buttons as needed -->
+    </div>
+
+    <div class="popup-container" id="popup-container">
+        <!-- Populated dynamically with popup windows -->
+    </div>
+
+    <script>
+        var popupWindows = [];
+
+        function openLinkInPopup(url) {
+            var windowFeatures = "width=800,height=600,resizable=yes,scrollbars=yes";
+            var popup = window.open(url, "_blank", windowFeatures);
+            popupWindows.push(popup);
+
+            // Create a div for the popup window
+            var popupContainer = document.getElementById("popup-container");
+            var popupWindow = document.createElement("div");
+            popupWindow.className = "popup-window";
+            popupContainer.appendChild(popupWindow);
+
+            // Move the popup window into the new div
+            popupWindow.appendChild(popup.document.body);
+            popup.document.body.style.margin = "0";
+        }
+    </script>
+</body>
+</html>
