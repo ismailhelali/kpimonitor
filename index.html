@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMF Data Display</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Open Link</title>
 </head>
 <body>
-    <h1>IMF Data Display</h1>
-    <div id="data-container"></div>
-    <button id="fetch-data">Fetch Data</button>
-    <script src="script.js"></script>
+    <button onclick="openLink()">Open Link</button>
+
+    <script>
+        function openLink() {
+            var url = "https://data.imf.org/?sk=667622e4-29e4-43bb-99cd-928bb31e325e&hide_uv=1";
+            window.open(url, "_blank");
+        }
+    </script>
 </body>
 </html>
+
