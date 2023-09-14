@@ -3,16 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open Link in Popup</title>
+    <title>Matrix of Links</title>
+    <style>
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Adjust the number of columns as needed */
+            gap: 10px;
+        }
+    </style>
 </head>
 <body>
-    <button onclick="openLinkInPopup()">Open Link in Popup</button>
+    <div class="button-container">
+        <button onclick="openLinkInPopup('https://data.imf.org/?sk=667622e4-29e4-43bb-99cd-928bb31e325e&hide_uv=1')">Huile d'olive</button>
+        <button onclick="openLinkInPopup('https://data.imf.org/?sk=667622e4-29e4-43bb-99cd-928bb31e325e&hide_uv=1')">Link 2</button>
+        <button onclick="openLinkInPopup('https://data.imf.org/?sk=3')">Link 3</button>
+        <!-- Add more buttons as needed -->
+    </div>
 
     <script>
-        function openLinkInPopup() {
-            var url = "https://data.imf.org/?sk=667622e4-29e4-43bb-99cd-928bb31e325e&hide_uv=1";
+        var popupWindows = [];
+
+        function openLinkInPopup(url) {
             var windowFeatures = "width=800,height=600,resizable=yes,scrollbars=yes";
-            window.open(url, "_blank", windowFeatures);
+            var popup = window.open(url, "_blank", windowFeatures);
+            popupWindows.push(popup);
         }
     </script>
 </body>
